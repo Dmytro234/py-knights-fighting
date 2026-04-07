@@ -71,21 +71,22 @@ KNIGHTS = {
 }
 
 
+BATTLES = [
+    ("lancelot", "mordred"),
+    ("arthur", "red_knight"),
+]
+
+
 def battle(knights_config: dict) -> dict:
-    lancelot = Knight(knights_config["lancelot"])
-    arthur = Knight(knights_config["arthur"])
-    mordred = Knight(knights_config["mordred"])
-    red_knight = Knight(knights_config["red_knight"])
-
-    fight(lancelot, mordred)
-    fight(arthur, red_knight)
-
-    return {
-        lancelot.name: lancelot.hp,
-        arthur.name: arthur.hp,
-        mordred.name: mordred.hp,
-        red_knight.name: red_knight.hp,
+    knights = {
+        key: Knight(config)
+        for key, config in knights_config.items()
     }
+
+    for knight_a, knight_b in BATTLES:
+        fight(knights[knight_a], knights[knight_b])
+
+    return {knight.name: knight.hp for knight in knights.values()}
 
 
 if __name__ == "__main__":
